@@ -38,7 +38,7 @@ public class BookingTest {
     }
 
 
-    //helper
+    //helper for tests
     private Booking booking(String start, String end) {
         return new Booking(
                 "1",
