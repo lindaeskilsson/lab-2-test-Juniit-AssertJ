@@ -70,6 +70,16 @@ public class BookingTest {
         assertThat(firstBooking.overlaps(secondBookingStart, secondBookingEnd)).isTrue();
     }
 
+    // test if overlap - exactly the same
+    @Test
+    void overlapsReturnsTrue_whenExactlySameInterval() {
+        Booking firstBooking = booking("2026-02-03T10:00", "2026-02-04T14:00");
+
+        LocalDateTime secondBookingStart = LocalDateTime.parse("2026-02-03T10:00");
+        LocalDateTime secondBookingEnd   = LocalDateTime.parse("2026-02-04T14:00");
+
+        assertThat(firstBooking.overlaps(secondBookingStart, secondBookingEnd)).isTrue();
+    }
 
 
     //helper for tests
