@@ -59,6 +59,19 @@ public class BookingTest {
                 LocalDateTime.parse("2026-02-06T14:00");
     }
 
+    // test if overlap - ends in the middle of existing booking
+    @Test
+    void overlapsReturnsTrue_whenOtherEndsInside() {
+        Booking firstBooking = booking("2026-02-03T11:00", "2026-02-03T14:00");
+
+        LocalDateTime secondBookingStart = LocalDateTime.parse("2026-02-03T10:00");
+        LocalDateTime secondBookingEnd   = LocalDateTime.parse("2026-02-03T12:00");
+
+        assertThat(firstBooking.overlaps(secondBookingStart, secondBookingEnd)).isTrue();
+    }
+
+
+
     //helper for tests
     private Booking booking(String start, String end) {
         return new Booking(
