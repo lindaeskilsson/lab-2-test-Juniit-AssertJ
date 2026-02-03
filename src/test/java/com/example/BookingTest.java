@@ -1,4 +1,50 @@
 package com.example;
 
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class BookingTest {
+
+    // checks if no overlap – completely before
+    @Test
+    void overlapsReturnsFalse_whenOtherIsCompletelyBefore() {
+        Booking firstBooking = booking("2026-01-31T00:00", "2026-02-02T00:00");
+
+        LocalDateTime otherStart = LocalDateTime.parse("2026-01-20T00:00");
+        LocalDateTime otherEnd   = LocalDateTime.parse("2026-01-25T00:00");
+
+        assertThat(firstBooking.overlaps(otherStart, otherEnd)).isFalse();
+    }
+
+    // checks if no overlap - back to back
+    // ex: first_booking 10-11/1, second_booking 11-12/1
+    @Test
+    void overlapsReturnFalse_whenBackToBack() {
+        Booking firstBooking = booking(
+                "2026-01-10T10:00",
+                "2026-01-11T11:00"
+        );
+
+        LocalDateTime secondBookingStart =
+                LocalDateTime.parse("2026-01-11T11:00");
+        LocalDateTime secondBookingEnd =
+                LocalDateTime.parse("2026-01-12T11:00");
+
+        assertThat(firstBooking.overlaps(secondBookingStart, secondBookingEnd))
+                .isFalse();
+    }
+
+
+    //helper
+    private Booking booking(String start, String end) {
+        return new Booking(
+                "1",
+                "room-1",
+                LocalDateTime.parse(start),
+                LocalDateTime.parse(end)
+        );
+    }
 }

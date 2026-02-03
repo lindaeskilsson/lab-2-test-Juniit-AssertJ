@@ -2,6 +2,7 @@ package com.example;
 
 import java.time.LocalDateTime;
 
+// testa overlaps
 public class Booking {
     private final String id;
     private final String roomId;
@@ -16,7 +17,7 @@ public class Booking {
     }
 
     public boolean overlaps(LocalDateTime start, LocalDateTime end) {
-        return !endTime.isBefore(start) && !startTime.isAfter(end);
+        return endTime.isBefore(start) && startTime.isAfter(end);
     }
 
     public String getId() {
