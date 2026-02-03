@@ -21,7 +21,6 @@ public class BookingTest {
     }
 
     // checks if no overlap - back to back
-    // ex: first_booking 10-11/1, second_booking 11-12/1
     @Test
     void overlapsReturnFalse_whenBackToBack() {
         Booking firstBooking = booking(
@@ -49,6 +48,16 @@ public class BookingTest {
                 LocalDateTime.parse("2026-02-03T12:00");
     }
 
+    // test if overlap - starts and ends in existing booking
+    @Test
+    void ovarlapsReturnTrue_whenOtherBookingStartsAndEndsInExistingBooking() {
+        Booking firstBooking = booking("2026-02-03T10:00", "2026-02-08T14:00");
+
+        LocalDateTime secondBookingStart =
+                LocalDateTime.parse("2026-03-04T10:00");
+        LocalDateTime secondBookingEnd =
+                LocalDateTime.parse("2026-02-06T14:00");
+    }
 
     //helper for tests
     private Booking booking(String start, String end) {
