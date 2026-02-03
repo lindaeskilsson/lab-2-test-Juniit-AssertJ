@@ -2,6 +2,7 @@ package com.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +36,17 @@ public class BookingTest {
 
         assertThat(firstBooking.overlaps(secondBookingStart, secondBookingEnd))
                 .isFalse();
+    }
+
+    //test if overlap - starts in the middle
+    @Test
+    void overlapsReturnTrue_whenOtherStartsInTheMiddle(){
+        Booking firstBooking = booking("2026-02-03T10:00", "2026-02-03T12:00");
+
+        LocalDateTime secondBookingStart =
+                LocalDateTime.parse("2026-02-03T11:00");
+        LocalDateTime secondBookingEnd =
+                LocalDateTime.parse("2026-02-03T12:00");
     }
 
 
