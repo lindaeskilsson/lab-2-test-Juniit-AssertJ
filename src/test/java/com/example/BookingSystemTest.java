@@ -88,8 +88,15 @@ import static org.mockito.Mockito.when;
                     now.plusDays(1),
                     now.plusDays(3)
             ));
-
+            when(roomRepository.findById("room-1")).thenReturn(Optional.of(room));
+            boolean result = bookingSystem.bookRoom(
+                    "room-1",
+                    now.plusDays(2),
+                    now.plusDays(4)
+            );
         }
+
+        // test:
 
 
     // Tests on getAvalibleRooms
