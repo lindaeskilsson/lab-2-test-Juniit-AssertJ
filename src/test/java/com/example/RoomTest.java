@@ -64,7 +64,19 @@ public class RoomTest {
     }
 
     //test remove booking
+    @Test
+    void removeBookingRemovesExistingBooking() {
+        Room room = new Room("room-1", "room-2");
 
+        room.addBooking(booking(
+                "booking-1",
+                LocalDateTime.of(2026, 1,1,0,0),
+                LocalDateTime.of(2026,1,2,0,0)
+        ));
+
+        room.removeBooking("booking-1");
+        assertThat(room.hasBooking("booking-1")).isFalse();
+    }
 
     // test get booking
 
