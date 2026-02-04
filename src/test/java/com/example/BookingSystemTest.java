@@ -153,7 +153,12 @@ import static org.mockito.Mockito.when;
         }
 
         // verifies that en expetions is thrown when end time is before start time
-
+        @Test
+        void getAvalibleRoomsThrow_whenEndTimeIsBeforeStartTime() {
+            assertThatThrownBy(() -> bookingSystem.getAvailableRooms(now.plusDays(2), now.plusDays(1)))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("Sluttid måste vara efter starttid");
+        }
 
     // tests on cancelBooking
 
