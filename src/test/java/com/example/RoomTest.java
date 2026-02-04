@@ -42,7 +42,18 @@ public class RoomTest {
     }
 
     //test add booking and has booking
+    @Test
+    void hasBookingReturnsTrue_afterAddBooking() {
+        Room room = new Room("room-1", "Room-2");
 
+        room.addBooking(booking(
+                "booking_1",
+                LocalDateTime.of(2026, 1, 1, 0, 0),
+                LocalDateTime.of(2026, 1, 2, 0, 0)
+        ));
+
+        assertThat(room.hasBooking("booking_1")).isTrue();
+    }
 
 
     //test remove booking
