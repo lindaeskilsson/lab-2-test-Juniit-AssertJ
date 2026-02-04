@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -158,6 +159,23 @@ import static org.mockito.Mockito.when;
             assertThatThrownBy(() -> bookingSystem.getAvailableRooms(now.plusDays(2), now.plusDays(1)))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("Sluttid måste vara efter starttid");
+        }
+
+        // verifies that only avlaible rooms are returned for given time interval
+        @Test
+        void getAvalibleRoomsReturnOnlyRoomsThatAreAvalible() {
+            LocalDateTime start = now.plusDays(2);
+            LocalDateTime end = now.plusDays(3);
+
+            Room avalibleRoom = new Room("room-1", "AA");
+            Room busyRoom = new Room("room-2", "BB");
+            busyRoom.addBooking(new Booking("BB1", "room-2", now.plusDays(1), now.plusDays(4)));
+
+            when(roomRepository.findAll()).thenReturn(List.of(avalibleRoom, busyRoom));
+            List<Room> result = bookingSystem.getAvailableRooms(start, end);
+
+            assertThat(result.size()).isEqualTo(1);
+            assertThat(result.get(0).getId()).isEqualTo("room-1");
         }
 
     // tests on cancelBooking
