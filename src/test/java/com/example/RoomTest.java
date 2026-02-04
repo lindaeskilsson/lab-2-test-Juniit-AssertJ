@@ -55,6 +55,13 @@ public class RoomTest {
         assertThat(room.hasBooking("booking_1")).isTrue();
     }
 
+    // test: has booking when no existing
+    @Test
+    void hasBookingReturnFalse_whenBookingDoesNotExist() {
+        Room room = new Room("room-1", "room-2");
+
+        assertThat(room.hasBooking("missing")).isFalse();
+    }
 
     //test remove booking
 
