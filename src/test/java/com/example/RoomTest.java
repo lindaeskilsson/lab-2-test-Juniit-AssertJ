@@ -78,7 +78,23 @@ public class RoomTest {
         assertThat(room.hasBooking("booking-1")).isFalse();
     }
 
-    // test get booking
+    // test get booking return correct booking
+    @Test
+    void getBookingReturnsBookingWhenIsExist() {
+        Room room = new Room("room-1", "room-2");
+
+        Booking booking_1 = booking(
+                "booking_1",
+                LocalDateTime.of(2026, 1, 1, 0,0),
+                LocalDateTime.of(2026, 1, 2, 0,0)
+        );
+        room.addBooking(booking_1);
+
+        Booking result = room.getBooking("booking_1");
+        assertThat(result).isSameAs(booking_1);
+    }
+
+    //test: get booking thorws an exeption when it does not exist
 
 
     //helper for tests
