@@ -41,7 +41,6 @@ import static org.mockito.Mockito.when;
         @BeforeEach
         void setup() {
             bookingSystem = new BookingSystem(timeProvider, roomRepository, notificationService);
-            when(timeProvider.getCurrentTime()).thenReturn(now);
         }
 
 
@@ -50,7 +49,10 @@ import static org.mockito.Mockito.when;
         // test: verifies that booking is rejected when the start time is in the past
         @Test
         void bookRoomThrows_whenStartTimeIsInThePast() {
-            assertThatThrownBy(() -> bookingSystem.bookRoom("room-1",
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+
+            assertThatThrownBy(() -> bookingSystem.bookRoom(
+                    "room-1",
                     now.minusDays(1),
                     now.plusDays(1)
             )).isInstanceOf(IllegalArgumentException.class)
@@ -61,6 +63,8 @@ import static org.mockito.Mockito.when;
     // test: Verifies that booking is rejected when the end time is before the start time
      @Test
      void bookRoomThrows_whenEndIsBeforeStart() {
+         when(timeProvider.getCurrentTime()).thenReturn(now);
+
          assertThatThrownBy(() -> bookingSystem.bookRoom(
                  "room-1",
                  now.plusDays(2),
@@ -72,6 +76,8 @@ import static org.mockito.Mockito.when;
      //test: Verifies that booking fails when the specified room does not exist
         @Test
         void bookRoomThrows_whenSpecifiedRoomDoesNotExist() {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+
             when(roomRepository.findById("missing")).thenReturn(Optional.empty());
 
             assertThatThrownBy(()-> bookingSystem.bookRoom(
@@ -85,6 +91,8 @@ import static org.mockito.Mockito.when;
         // test: verifies that booking returns false when the room is not avalible
         @Test
         void bookRoomReturnFalse_whenRoomIsNotAvalible() {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+
             Room room = new Room("room-1", "room-2");
             room.addBooking(new Booking(
                     "booking-1", "room-1",
@@ -103,6 +111,8 @@ import static org.mockito.Mockito.when;
         // test: Verifies that a succesfull booking is done and saved and a notification is sent
         @Test
         void bookRoomReturnsTrue_whenBookingIsDoneAndSendsNotification() throws NotificationException {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+
             Room room = new Room("room-1", "room-2");
             when(roomRepository.findById("room-1")).thenReturn(Optional.of(room));
 
@@ -129,7 +139,21 @@ import static org.mockito.Mockito.when;
         }
 
 
+
     // Tests on getAvalibleRooms
+
+        // verfies that an expetions is thrown when start or end time is Null
+        @Test
+        void getAvalibleRoomsThrows_whenStartorEndIsNull(){
+            assertThatThrownBy(() -> bookingSystem.getAvailableRooms(null, now.plusDays(1)))
+                    .isInstanceOf(IllegalArgumentException.class);
+
+            assertThatThrownBy(() -> bookingSystem.getAvailableRooms(now.plusDays(1), null))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        // verifies that en expetions is thrown when end time is before start time
+
 
     // tests on cancelBooking
 
