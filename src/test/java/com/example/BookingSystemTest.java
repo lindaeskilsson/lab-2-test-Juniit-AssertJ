@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -64,6 +65,20 @@ import static org.mockito.Mockito.when;
          )).isInstanceOf(IllegalArgumentException.class)
                  .hasMessage("Sluttid måste vara efter starttid");
      }
+
+     //test: Verifies that booking fails when the specified room does not exist
+        @Test
+        void bookRoomThrows_whenSpecifiedRoomDoesNotExist() {
+            when(roomRepository.findById("missing")).thenReturn(Optional.empty());
+
+            assertThatThrownBy(()-> bookingSystem.bookRoom(
+                    "missing",
+                    now.plusDays(1),
+                    now.plusDays(2)
+                    )).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("Rummet existerar inte");
+        }
+
 
 
     // Tests on getAvalibleRooms
