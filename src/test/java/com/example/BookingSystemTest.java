@@ -13,10 +13,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-    // test on BookingSystem.Java
+// test on BookingSystem.Java
 
     /**
      * Enables Mockito support in JUnit 5 so that @Mock works.
@@ -188,6 +187,18 @@ import static org.mockito.Mockito.when;
                     .hasMessage("Boknings-id kan inte vara null");
         }
 
-        //
+        //Verifiees that cancelling a non-existing booking returns false
+        @Test
+        void cancelBookingReturnsFalse_whenCancellingNonExistingBooking() throws NotificationException {
+            when(roomRepository.findAll()).thenReturn(List.of(
+                    new Room("room-1", "AA"),
+                    new Room("room-2", "BB")
+            ));
+            boolean result = bookingSystem.cancelBooking("missing");
+
+            assertThat(result).isFalse();
+            verify(roomRepository,never()).save(any());
+            verify(notificationService, never()).sendCancellationConfirmation(any());
+        }
 
    }
