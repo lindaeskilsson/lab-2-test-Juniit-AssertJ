@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
         }
 
 
-        // testd on bookRoom:
+        // test on bookRoom:
 
         // test: verifies that booking is rejected when the start time is in the past
         @Test
@@ -52,12 +52,22 @@ import static org.mockito.Mockito.when;
             )).isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("Kan inte boka tid i dåtid");
         }
-    }
 
-    // -
+
+    // test: Verifies that booking is rejected when the end time is before the start time
+     @Test
+     void bookRoomThrows_whenEndIsBeforeStart() {
+         assertThatThrownBy(() -> bookingSystem.bookRoom(
+                 "room-1",
+                 now.plusDays(2),
+                 now.plusDays(1)
+         )).isInstanceOf(IllegalArgumentException.class)
+                 .hasMessage("Sluttid måste vara efter starttid");
+     }
+
 
     // Tests on getAvalibleRooms
 
     // tests on cancelBooking
 
-
+   }
