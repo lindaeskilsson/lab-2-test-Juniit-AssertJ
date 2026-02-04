@@ -180,4 +180,14 @@ import static org.mockito.Mockito.when;
 
     // tests on cancelBooking
 
+        //Verifies that cancelling a booking with null id throws an exeption
+        @Test
+        void cancelBookingThrows_whenBookingIdIsNull(){
+            assertThatThrownBy(()-> bookingSystem.cancelBooking(null))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("Boknings-id kan inte vara null");
+        }
+
+        //
+
    }
