@@ -3,6 +3,7 @@ package com.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
     // test on BookingSystem.Java
@@ -98,7 +100,33 @@ import static org.mockito.Mockito.when;
             assertThat(result).isFalse();
         }
 
-        // test:
+        // test: Verifies that a succesfull booking is done and saved and a notification is sent
+        @Test
+        void bookRoomReturnsTrue_whenBookingIsDoneAndSendsNotification() throws NotificationException {
+            Room room = new Room("room-1", "room-2");
+            when(roomRepository.findById("room-1")).thenReturn(Optional.of(room));
+
+            boolean result = bookingSystem.bookRoom(
+                    "room-1",
+                    now.plusDays(1),
+                    now.plusDays(2)
+            );
+
+            assertThat(result).isTrue();
+
+            verify(roomRepository).save(room);
+
+            //capture and verify the booking sent to the notification service
+            ArgumentCaptor<Booking> captor = ArgumentCaptor.forClass(Booking.class);
+            verify(notificationService).sendBookingConfirmation(captor.capture());
+
+            Booking sentBooking = captor.getValue();
+            assertThat(sentBooking.getRoomId()).isEqualTo("room-1");
+            assertThat(sentBooking.getStartTime()).isEqualTo(now.plusDays(1));
+            assertThat(sentBooking.getEndTime()).isEqualTo(now.plusDays(2));
+
+            assertThat(room.hasBooking(sentBooking.getId())).isTrue();
+        }
 
 
     // Tests on getAvalibleRooms
