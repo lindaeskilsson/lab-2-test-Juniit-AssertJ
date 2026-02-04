@@ -1,12 +1,14 @@
 package com.example;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
     // test on BookingSystem.Java
@@ -29,22 +31,28 @@ import static org.mockito.Mockito.when;
         @Mock
         private NotificationService notificationService;
 
-       private BookingSystem bookingSystem;
-       private final LocalDateTime now = LocalDateTime.of(2026, 1, 1,0,0);
+        private BookingSystem bookingSystem;
+        private final LocalDateTime now = LocalDateTime.of(2026, 1, 1, 0, 0);
 
         @BeforeEach
         void setup() {
             bookingSystem = new BookingSystem(timeProvider, roomRepository, notificationService);
             when(timeProvider.getCurrentTime()).thenReturn(now);
         }
+
+
+        // testd on bookRoom:
+
+        // test: verifies that booking is rejected when the start time is in the past
+        @Test
+        void bookRoomThrows_whenStartTimeIsInThePast() {
+            assertThatThrownBy(() -> bookingSystem.bookRoom("room-1",
+                    now.minusDays(1),
+                    now.plusDays(1)
+            )).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("Kan inte boka tid i dåtid");
+        }
     }
-
-
-
-    // testd on bookRoom:
-
-    // test:
-
 
     // -
 
