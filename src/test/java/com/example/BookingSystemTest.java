@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
@@ -94,6 +95,7 @@ import static org.mockito.Mockito.when;
                     now.plusDays(2),
                     now.plusDays(4)
             );
+            assertThat(result).isFalse();
         }
 
         // test:
