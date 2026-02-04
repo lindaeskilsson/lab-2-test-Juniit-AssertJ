@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class RoomTest {
 
@@ -95,7 +96,13 @@ public class RoomTest {
     }
 
     //test: get booking thorws an exeption when it does not exist
-
+@Test
+void getBookingThrowsExeptionWhenBookingDoesNotExist(){
+        Room room = new Room("room-1", "room-2");
+    assertThatThrownBy(()-> room.getBooking("missing"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Bokning finns inte");
+}
 
     //helper for tests
     private Booking booking(String id, LocalDateTime start, LocalDateTime end) {
