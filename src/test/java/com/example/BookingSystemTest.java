@@ -201,4 +201,28 @@ import static org.mockito.Mockito.*;
             verify(notificationService, never()).sendCancellationConfirmation(any());
         }
 
+        //Verifies that cancelling a booking that has started or ended throws expetion
+        @Test
+        void cancelBookingThrows_whenCancellingAlreadyStartetOrEndedBooking() throws NotificationException {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+
+            Room room = new Room("room-1", "AA");
+            room.addBooking(new Booking(
+                    "booking-1",
+                    "room-1",
+                    now.minusDays(1),
+                    now.plusDays(1)
+            ));
+
+            when(roomRepository.findAll()).thenReturn(List.of(room));
+
+            assertThatThrownBy(() -> bookingSystem.cancelBooking("booking-1"))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("Kan inte avboka påbörjad eller avslutad bokning");
+
+            verify(roomRepository, never()).save(any());
+            verify(notificationService, never()).sendCancellationConfirmation(any());
+
+        }
+
    }
