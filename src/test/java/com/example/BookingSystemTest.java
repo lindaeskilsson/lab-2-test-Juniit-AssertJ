@@ -79,6 +79,17 @@ import static org.mockito.Mockito.when;
                     .hasMessage("Rummet existerar inte");
         }
 
+        // test: verifies that booking returns false when the room is not avalible
+        @Test
+        void bookRoomReturnFalse_whenRoomIsNotAvalible() {
+            Room room = new Room("room-1", "room-2");
+            room.addBooking(new Booking(
+                    "booking-1", "room-1",
+                    now.plusDays(1),
+                    now.plusDays(3)
+            ));
+
+        }
 
 
     // Tests on getAvalibleRooms
