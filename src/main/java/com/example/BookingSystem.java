@@ -17,6 +17,7 @@ public class BookingSystem {
         this.notificationService = notificationService;
     }
 
+    // Test för bookroom -
     public boolean bookRoom(String roomId, LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime == null || endTime == null || roomId == null) {
             throw new IllegalArgumentException("Bokning kräver giltiga start- och sluttider samt rum-id");
@@ -50,6 +51,7 @@ public class BookingSystem {
         return true;
     }
 
+    // testa
     public List<Room> getAvailableRooms(LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime == null || endTime == null) {
             throw new IllegalArgumentException("Måste ange både start- och sluttid");
@@ -64,6 +66,7 @@ public class BookingSystem {
                 .collect(Collectors.toList());
     }
 
+    // test för cancel booking
     public boolean cancelBooking(String bookingId) {
         if (bookingId == null) {
             throw new IllegalArgumentException("Boknings-id kan inte vara null");

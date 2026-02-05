@@ -14,25 +14,30 @@ public class Room {
         this.name = name;
     }
 
+    //testa
     public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime) {
         return bookings.stream()
                 .noneMatch(booking ->
                         booking.overlaps(startTime, endTime));
     }
 
+    //testa
     public void addBooking(Booking booking) {
         bookings.add(booking);
     }
 
+    //testa
     public void removeBooking(String bookingId) {
         bookings.removeIf(booking -> booking.getId().equals(bookingId));
     }
 
+    //testa
     public boolean hasBooking(String bookingId) {
         return bookings.stream()
                 .anyMatch(booking -> booking.getId().equals(bookingId));
     }
 
+    //testa
     public Booking getBooking(String bookingId) {
         return bookings.stream()
                 .filter(booking -> booking.getId().equals(bookingId))
