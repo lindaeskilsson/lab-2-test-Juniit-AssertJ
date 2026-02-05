@@ -1,5 +1,6 @@
-package com.example;
+package com.example.bookingSystem;
 
+import com.example.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
