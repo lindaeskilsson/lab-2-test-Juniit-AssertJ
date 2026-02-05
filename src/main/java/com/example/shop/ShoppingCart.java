@@ -4,7 +4,13 @@ import java.math.BigDecimal;
 
 public class ShoppingCart {
 
-    public BigDecimal getTotal() {
-        return BigDecimal.ZERO;
+        private BigDecimal total = BigDecimal.ZERO;
+
+        public void add(String name, BigDecimal price) {
+            total = total.add(price);
+        }
+
+        public BigDecimal getTotal() {
+            return total;
+        }
     }
-}
