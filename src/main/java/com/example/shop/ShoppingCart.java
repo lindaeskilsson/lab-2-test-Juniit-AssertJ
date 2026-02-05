@@ -47,9 +47,18 @@ public class ShoppingCart {
     }
 
     public BigDecimal getTotal() {
-        return items.values().stream()
+        BigDecimal subtotal = items.values().stream()
                 .map(LineItem::total)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal factor = BigDecimal.ONE.subtract(
+                percentageDiscount.divide(new BigDecimal("100"), 10, java.math.RoundingMode.HALF_UP)
+        );
+
+        BigDecimal discounted = subtotal.multiply(factor);
+
+        if (discounted.compareTo(BigDecimal.ZERO) < 0) return BigDecimal.ZERO;
+        return discounted;
     }
 
     public void updateQuantity(String name, int newQuantity) {
@@ -67,4 +76,12 @@ public class ShoppingCart {
         }
     }
 
+    public void applyPercentageDiscount(BigDecimal percent) {
+        Objects.requireNonNull(percent, "percent");
+        if (percent.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("percent must be >= 0");
+        }
+        this.percentageDiscount = percent;
+    }
+    private BigDecimal percentageDiscount = BigDecimal.ZERO;
 }

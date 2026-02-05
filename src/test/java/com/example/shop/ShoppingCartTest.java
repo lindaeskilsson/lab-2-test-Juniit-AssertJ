@@ -95,7 +95,7 @@ class ShoppingCartTest {
     @Test
     void percentageDiscountApplied_whenDiscountSet() {
         ShoppingCart cart = new ShoppingCart();
-        cart.add("Apple", new BigDecimal("100.00"));
+        cart.add("Chair", new BigDecimal("100.00"));
 
         cart.applyPercentageDiscount(new BigDecimal("10")); // 10%
         assertThat(cart.getTotal()).isEqualByComparingTo("90.00");
