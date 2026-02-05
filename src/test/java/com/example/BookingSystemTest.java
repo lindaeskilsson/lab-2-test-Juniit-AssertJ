@@ -222,6 +222,34 @@ import static org.mockito.Mockito.*;
 
             verify(roomRepository, never()).save(any());
             verify(notificationService, never()).sendCancellationConfirmation(any());
+        }
+
+        // Verifies that a future booking can be cancelled successfully
+
+        @Test
+        void cancelBookingReturnTrue_whenBookingCanBeCancelled() throws NotificationException {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+            Room room = new Room ("room-1", "AA");
+            Booking booking_1 = new Booking(
+                    "booking_1", "room-1",
+                    now.plusDays(2),
+                    now.plusDays(3)
+            );
+            room.addBooking(booking_1);
+
+            when(roomRepository.findAll()).thenReturn(List.of(room));
+
+            boolean result = bookingSystem.cancelBooking("booking_1");
+
+            assertThat(result).isTrue();
+            assertThat(room.hasBooking("booking_1")).isFalse();
+            verify(roomRepository).save(room);
+
+            ArgumentCaptor<Booking> captor = ArgumentCaptor.forClass(Booking.class);
+            verify(notificationService).sendCancellationConfirmation(captor.capture());
+            assertThat(captor.getValue().getId()).isEqualTo("booking_1");
+
+
 
         }
 
