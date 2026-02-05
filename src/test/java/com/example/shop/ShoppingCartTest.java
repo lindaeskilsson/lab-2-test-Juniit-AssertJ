@@ -24,4 +24,16 @@ class ShoppingCartTest {
 
         assertThat(cart.getTotal()).isEqualByComparingTo("199");
     }
+
+    // test: add more than one item to cart and total accumulates
+    @Test
+    void totalAccumulates_whenAddingMultipleItems() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.add("Lamp", new BigDecimal("199"));
+        cart.add("Chair", new BigDecimal("349"));
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("548");
+    }
+
 }
