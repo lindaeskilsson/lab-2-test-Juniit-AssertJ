@@ -59,4 +59,14 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
     }
 
+    // test: price adds upp when adding two of same item
+    @Test
+    void quantityAccumulates_whenAddingSameItemTwice() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Chair", new BigDecimal("349"), 2);
+        cart.add("Chair", new BigDecimal("349"), 3);
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("1745");
+    }
+
 }
