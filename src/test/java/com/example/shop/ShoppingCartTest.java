@@ -69,4 +69,15 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("1745");
     }
 
+    //test: total price updates when quantity update
+    @Test
+    void totalUpdates_whenUpdatingQuantity() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Apple", new BigDecimal("10.00"), 2); // 20
+
+        cart.updateQuantity("Apple", 5);
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("50.00");
+    }
+
 }
