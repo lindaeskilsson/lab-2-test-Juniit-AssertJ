@@ -80,4 +80,15 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("500");
     }
 
+    //test: item removed when update quantity to zero
+    @Test
+    void itemRemoved_whenUpdatingQuantityToZero() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Chair", new BigDecimal("100"), 2);
+
+        cart.updateQuantity("Chair", 0);
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("0");
+    }
+
 }
