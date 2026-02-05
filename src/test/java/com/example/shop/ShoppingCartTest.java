@@ -48,4 +48,15 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
     }
 
+    //test remove item that does not exist in cart
+    @Test
+    void removeDoesNothing_whenItemDoesNotExist() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Apple", new BigDecimal("10.00"));
+
+        cart.remove("DoesNotExist");
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
+    }
+
 }
