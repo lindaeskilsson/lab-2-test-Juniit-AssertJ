@@ -248,9 +248,31 @@ import static org.mockito.Mockito.*;
             ArgumentCaptor<Booking> captor = ArgumentCaptor.forClass(Booking.class);
             verify(notificationService).sendCancellationConfirmation(captor.capture());
             assertThat(captor.getValue().getId()).isEqualTo("booking_1");
-
-
-
         }
 
-   }
+        // Verifies that cancellation still succeeds even if notification sending fails
+        @Test
+        void cancelBookingStillReturnsTrue_whenNotificationFails() throws NotificationException {
+            when(timeProvider.getCurrentTime()).thenReturn(now);
+            Room room = new Room("room-1", "A");
+            room.addBooking(new Booking(
+                    "b1", "room-1",
+                    now.plusDays(2),
+                    now.plusDays(3)
+            ));
+
+            when(roomRepository.findAll()).thenReturn(List.of(room));
+
+            doThrow(new NotificationException("fail"))
+                    .when(notificationService)
+                    .sendCancellationConfirmation(any(Booking.class));
+
+            boolean result = bookingSystem.cancelBooking("b1");
+
+            assertThat(result).isTrue();
+            verify(roomRepository).save(room);
+            verify(notificationService).sendCancellationConfirmation(any(Booking.class));
+        }
+
+
+    }
