@@ -36,4 +36,16 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("548");
     }
 
+    //test: removen item and decrease total
+    @Test
+    void totalDecreases_whenRemovingExistingItem() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Apple", new BigDecimal("10.00"));
+        cart.add("Banana", new BigDecimal("5.50"));
+
+        cart.remove("Banana");
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
+    }
+
 }
