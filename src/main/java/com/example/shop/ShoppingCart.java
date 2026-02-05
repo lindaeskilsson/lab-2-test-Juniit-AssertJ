@@ -51,4 +51,20 @@ public class ShoppingCart {
                 .map(LineItem::total)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public void updateQuantity(String name, int newQuantity) {
+        Objects.requireNonNull(name, "name");
+        if (newQuantity < 0) throw new IllegalArgumentException("newQuantity must be >= 0");
+
+        if (newQuantity == 0) {
+            items.remove(name);
+            return;
+        }
+
+        LineItem item = items.get(name);
+        if (item != null) {
+            item.quantity = newQuantity;
+        }
+    }
+
 }
