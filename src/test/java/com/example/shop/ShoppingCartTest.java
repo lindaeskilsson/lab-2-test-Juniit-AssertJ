@@ -73,11 +73,11 @@ class ShoppingCartTest {
     @Test
     void totalUpdates_whenUpdatingQuantity() {
         ShoppingCart cart = new ShoppingCart();
-        cart.add("Apple", new BigDecimal("10.00"), 2); // 20
+        cart.add("Chair", new BigDecimal("100"), 2); // 20
 
-        cart.updateQuantity("Apple", 5);
+        cart.updateQuantity("Chair", 5);
 
-        assertThat(cart.getTotal()).isEqualByComparingTo("50.00");
+        assertThat(cart.getTotal()).isEqualByComparingTo("500");
     }
 
 }
