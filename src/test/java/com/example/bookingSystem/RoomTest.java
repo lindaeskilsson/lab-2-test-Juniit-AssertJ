@@ -1,5 +1,7 @@
-package com.example;
+package com.example.bookingSystem;
 
+import com.example.Booking;
+import com.example.Room;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
