@@ -142,6 +142,16 @@ class ShoppingCartTest {
 
         assertThatThrownBy(() -> cart.add("Chair", new BigDecimal("100"), -1))
                 .isInstanceOf(IllegalArgumentException.class);
+
+    }
+    // Kanttest: Expetion throws when quantatiy is negative
+    @Test
+    void updateQuantityThrows_whenQuantityIsNegative() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Chair", new BigDecimal("100"), 1);
+
+        assertThatThrownBy(() -> cart.updateQuantity("Chair", -1))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }
