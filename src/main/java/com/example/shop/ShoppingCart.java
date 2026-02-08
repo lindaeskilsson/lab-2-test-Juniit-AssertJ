@@ -55,10 +55,10 @@ public class ShoppingCart {
                 percentageDiscount.divide(new BigDecimal("100"), 10, java.math.RoundingMode.HALF_UP)
         );
 
-        BigDecimal discounted = subtotal.multiply(factor);
+        BigDecimal total = subtotal.multiply(factor).subtract(fixedDiscount);
 
-        if (discounted.compareTo(BigDecimal.ZERO) < 0) return BigDecimal.ZERO;
-        return discounted;
+        if (total.compareTo(BigDecimal.ZERO) < 0) return BigDecimal.ZERO;
+        return total;
     }
 
     public void updateQuantity(String name, int newQuantity) {
@@ -84,4 +84,13 @@ public class ShoppingCart {
         this.percentageDiscount = percent;
     }
     private BigDecimal percentageDiscount = BigDecimal.ZERO;
+    private BigDecimal fixedDiscount = BigDecimal.ZERO;
+
+    public void applyFixedDiscount(BigDecimal amount) {
+        Objects.requireNonNull(amount, "amount");
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("amount must be >= 0");
+        }
+        this.fixedDiscount = amount;
+    }
 }

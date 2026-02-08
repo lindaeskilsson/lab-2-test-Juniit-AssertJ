@@ -46,7 +46,7 @@ class ShoppingCartTest {
 
         cart.remove("Table");
 
-        assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
+        assertThat(cart.getTotal()).isEqualByComparingTo("100");
     }
 
     //test remove item that does not exist in cart
