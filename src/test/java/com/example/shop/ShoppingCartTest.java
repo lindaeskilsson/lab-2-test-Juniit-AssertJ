@@ -9,7 +9,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ShoppingCartTest {
 
-    // Test: total is zero when cart is still empty
+    //Test: total is zero when cart is still empty
+    // create feat to make green
     @Test
     void totalIsZero_whenCartIsEmpty() {
         ShoppingCart cart = new ShoppingCart();
