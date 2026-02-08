@@ -121,4 +121,15 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("0");
     }
 
+    // test set fixed discount
+    @Test
+    void fixedDiscountApplied_whenDiscountSet() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Chair", new BigDecimal("100.00"));
+
+        cart.applyFixedDiscount(new BigDecimal("25.00"));
+
+        assertThat(cart.getTotal()).isEqualByComparingTo("75.00");
+    }
+
 }
