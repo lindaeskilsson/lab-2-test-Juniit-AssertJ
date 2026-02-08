@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ShoppingCartTest {
 
@@ -100,4 +101,14 @@ class ShoppingCartTest {
         cart.applyPercentageDiscount(new BigDecimal("10")); // 10%
         assertThat(cart.getTotal()).isEqualByComparingTo("90.00");
     }
+
+    // test: persantage discount, throw exeption when percentage is negative
+    @Test
+    void applyPercentageDiscountThrows_whenPercentIsNegative() {
+        ShoppingCart cart = new ShoppingCart();
+
+        assertThatThrownBy(() -> cart.applyPercentageDiscount(new BigDecimal("-1")))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
