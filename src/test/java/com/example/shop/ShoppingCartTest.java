@@ -41,10 +41,10 @@ class ShoppingCartTest {
     @Test
     void totalDecreases_whenRemovingExistingItem() {
         ShoppingCart cart = new ShoppingCart();
-        cart.add("Apple", new BigDecimal("10.00"));
-        cart.add("Banana", new BigDecimal("5.50"));
+        cart.add("Chair", new BigDecimal("100"));
+        cart.add("Table", new BigDecimal("550"));
 
-        cart.remove("Banana");
+        cart.remove("Table");
 
         assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
     }
@@ -53,11 +53,11 @@ class ShoppingCartTest {
     @Test
     void removeDoesNothing_whenItemDoesNotExist() {
         ShoppingCart cart = new ShoppingCart();
-        cart.add("Apple", new BigDecimal("10.00"));
+        cart.add("Chair", new BigDecimal("100"));
 
         cart.remove("DoesNotExist");
 
-        assertThat(cart.getTotal()).isEqualByComparingTo("10.00");
+        assertThat(cart.getTotal()).isEqualByComparingTo("100");
     }
 
     // test: price adds upp when adding two of same item
@@ -109,6 +109,16 @@ class ShoppingCartTest {
 
         assertThatThrownBy(() -> cart.applyPercentageDiscount(new BigDecimal("-1")))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    // test: total price can never be less than zero
+    @Test
+    void totalNeverBelowZero_whenDiscountExceeds100Percent() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.add("Chair", new BigDecimal("100.00"));
+
+        cart.applyPercentageDiscount(new BigDecimal("150")); // 150%
+        assertThat(cart.getTotal()).isEqualByComparingTo("0");
     }
 
 }
