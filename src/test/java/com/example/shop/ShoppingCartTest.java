@@ -132,4 +132,16 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("75.00");
     }
 
+    // kanttest: throws expetion when quantity is 0 or negative
+    @Test
+    void addThrows_whenQuantityIsZeroOrNegative() {
+        ShoppingCart cart = new ShoppingCart();
+
+        assertThatThrownBy(() -> cart.add("Chair", new BigDecimal("100"), 0))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> cart.add("Chair", new BigDecimal("100"), -1))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
