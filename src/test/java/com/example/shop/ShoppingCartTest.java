@@ -153,5 +153,4 @@ class ShoppingCartTest {
         assertThatThrownBy(() -> cart.updateQuantity("Chair", -1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
 }
