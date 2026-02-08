@@ -1,8 +1,8 @@
-package com.example.bookingSystem;
+package com.example;
 
-import com.example.Booking;
 import org.junit.jupiter.api.Test;
 
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
