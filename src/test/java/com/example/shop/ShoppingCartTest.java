@@ -100,5 +100,4 @@ class ShoppingCartTest {
         cart.applyPercentageDiscount(new BigDecimal("10")); // 10%
         assertThat(cart.getTotal()).isEqualByComparingTo("90.00");
     }
-
 }
