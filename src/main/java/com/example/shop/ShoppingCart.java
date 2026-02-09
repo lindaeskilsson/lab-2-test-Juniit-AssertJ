@@ -94,12 +94,4 @@ public class ShoppingCart {
     private BigDecimal percentageDiscount = BigDecimal.ZERO;
     private BigDecimal fixedDiscount = BigDecimal.ZERO;
 
-    // Apply fixed Discount on item
-    public void applyFixedDiscount(BigDecimal amount) {
-        Objects.requireNonNull(amount, "amount");
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("amount must be >= 0");
-        }
-        this.fixedDiscount = amount;
-    }
 }
