@@ -9,8 +9,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ShoppingCartTest {
 
-    //Test: total is zero when cart is still empty
-    // create feat to make green
+    // RED: total should be 0 for an empty cart
+    // GREEN (feat): add ShoppingCart with getTotal() returning 0
     @Test
     void totalIsZero_whenCartIsEmpty() {
         ShoppingCart cart = new ShoppingCart();
@@ -18,7 +18,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("0");
     }
 
-    //test: cart increases when adding item to cart.
+    // RED: total should increase when adding one item
+    // GREEN (feat): implement add(name, price) and sum totals in getTotal()
     @Test
     void totalIncreases_whenAddingItem(){
         ShoppingCart cart = new ShoppingCart();
@@ -27,7 +28,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("199");
     }
 
-    // test: add more than one item to cart and total accumulates
+    // TEST: adding multiple items accumulates total
+    // FEAT (Green): store multiple items internally (Map) and sum all line totals
     @Test
     void totalAccumulates_whenAddingMultipleItems() {
         ShoppingCart cart = new ShoppingCart();
@@ -38,7 +40,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("548");
     }
 
-    //test: removen item and decrease total
+    // TEST: removing an existing item decreases total
+    // FEAT (Green): implement remove(name) and ensure total recalculates from stored items
     @Test
     void totalDecreases_whenRemovingExistingItem() {
         ShoppingCart cart = new ShoppingCart();
@@ -50,7 +53,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("100");
     }
 
-    //test remove item that does not exist in cart
+    // TEST: removing an item that does not exist should do nothing
+    // FEAT (Green): remove(name) should be safe (no crash) and not affect total
     @Test
     void removeDoesNothing_whenItemDoesNotExist() {
         ShoppingCart cart = new ShoppingCart();
@@ -61,7 +65,9 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("100");
     }
 
-    // test: price adds upp when adding two of same item
+
+    // TEST: quantity accumulates when adding the same item twice
+    // FEAT (Green): support add(name, price, quantity) + LineItem (unitPrice + quantity)
     @Test
     void quantityAccumulates_whenAddingSameItemTwice() {
         ShoppingCart cart = new ShoppingCart();
@@ -71,7 +77,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("1745");
     }
 
-    //test: total price updates when quantity update
+    // TEST: total updates when quantity is updated
+    // FEAT (Green): implement updateQuantity(name, newQuantity)
     @Test
     void totalUpdates_whenUpdatingQuantity() {
         ShoppingCart cart = new ShoppingCart();
@@ -82,7 +89,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("500");
     }
 
-    //test: item removed when update quantity to zero
+    // TEST: setting quantity to zero removes the item
+    // FEAT (Green): updateQuantity(name, 0) should remove the item
     @Test
     void itemRemoved_whenUpdatingQuantityToZero() {
         ShoppingCart cart = new ShoppingCart();
@@ -93,7 +101,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("0");
     }
 
-    // test: percentage discount added when discounts set
+    // TEST: percentage discount reduces total
+    // FEAT (Green): implement applyPercentageDiscount(percent) and apply it in getTotal()
     @Test
     void percentageDiscountApplied_whenDiscountSet() {
         ShoppingCart cart = new ShoppingCart();
@@ -103,7 +112,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("90.00");
     }
 
-    // test: persantage discount, throw exeption when percentage is negative
+    // TEST: negative percentage discount should throw exception
+    // FEAT (Green): validate percent >= 0 in applyPercentageDiscount
     @Test
     void applyPercentageDiscountThrows_whenPercentIsNegative() {
         ShoppingCart cart = new ShoppingCart();
@@ -112,7 +122,8 @@ class ShoppingCartTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    // test: total price can never be less than zero
+    // TEST: total price should never be below zero (even with huge discounts)
+    // FEAT (Green): clamp total to 0 in getTotal()
     @Test
     void totalNeverBelowZero_whenDiscountExceeds100Percent() {
         ShoppingCart cart = new ShoppingCart();
@@ -122,7 +133,8 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("0");
     }
 
-    // test set fixed discount
+    // TEST: fixed discount reduces total
+    // FEAT (Green): implement applyFixedDiscount(amount) and subtract it in getTotal()
     @Test
     void fixedDiscountApplied_whenDiscountSet() {
         ShoppingCart cart = new ShoppingCart();
@@ -133,7 +145,7 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("75.00");
     }
 
-    // kanttest: throws expetion when quantity is 0 or negative
+    // EDGE TEST: quantity 0 or negative should throw exception when adding
     @Test
     void addThrows_whenQuantityIsZeroOrNegative() {
         ShoppingCart cart = new ShoppingCart();
@@ -145,7 +157,8 @@ class ShoppingCartTest {
                 .isInstanceOf(IllegalArgumentException.class);
 
     }
-    // Kanttest: Expetion throws when quantatiy is negative
+
+    // EDGE TEST: updating quantity to a negative value should throw exception
     @Test
     void updateQuantityThrows_whenQuantityIsNegative() {
         ShoppingCart cart = new ShoppingCart();
