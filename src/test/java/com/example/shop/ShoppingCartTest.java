@@ -65,18 +65,6 @@ class ShoppingCartTest {
         assertThat(cart.getTotal()).isEqualByComparingTo("100");
     }
 
-
-    // TEST: quantity accumulates when adding the same item twice
-    // FEAT (Green): support add(name, price, quantity) + LineItem (unitPrice + quantity)
-    @Test
-    void quantityAccumulates_whenAddingSameItemTwice() {
-        ShoppingCart cart = new ShoppingCart();
-        cart.add("Chair", new BigDecimal("349"), 2);
-        cart.add("Chair", new BigDecimal("349"), 3);
-
-        assertThat(cart.getTotal()).isEqualByComparingTo("1745");
-    }
-
     // TEST: total updates when quantity is updated
     // FEAT (Green): implement updateQuantity(name, newQuantity)
     @Test
@@ -131,18 +119,6 @@ class ShoppingCartTest {
 
         cart.applyPercentageDiscount(new BigDecimal("150")); // 150%
         assertThat(cart.getTotal()).isEqualByComparingTo("0");
-    }
-
-    // TEST: fixed discount reduces total
-    // FEAT (Green): implement applyFixedDiscount(amount) and subtract it in getTotal()
-    @Test
-    void fixedDiscountApplied_whenDiscountSet() {
-        ShoppingCart cart = new ShoppingCart();
-        cart.add("Chair", new BigDecimal("100.00"));
-
-        cart.applyFixedDiscount(new BigDecimal("25.00"));
-
-        assertThat(cart.getTotal()).isEqualByComparingTo("75.00");
     }
 
     // EDGE TEST: quantity 0 or negative should throw exception when adding

@@ -51,7 +51,7 @@ public class ShoppingCart {
         items.remove(name);
     }
 
-    //  total price for the cart including discounts (never below zero)
+    //  total price for the cart including the discounts (never below zero)
     public BigDecimal getTotal() {
         BigDecimal subtotal = items.values().stream()
                 .map(LineItem::total)
@@ -61,7 +61,7 @@ public class ShoppingCart {
                 percentageDiscount.divide(new BigDecimal("100"), 10, java.math.RoundingMode.HALF_UP)
         );
 
-        BigDecimal total = subtotal.multiply(factor).subtract(fixedDiscount);
+        BigDecimal total = subtotal.multiply(factor).subtract(percentageDiscount);
 
         if (total.compareTo(BigDecimal.ZERO) < 0) return BigDecimal.ZERO;
         return total;
@@ -92,6 +92,4 @@ public class ShoppingCart {
         this.percentageDiscount = percent;
     }
     private BigDecimal percentageDiscount = BigDecimal.ZERO;
-    private BigDecimal fixedDiscount = BigDecimal.ZERO;
-
 }
